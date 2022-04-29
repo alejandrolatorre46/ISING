@@ -1,0 +1,11 @@
+FinalTime    128
+DumpTime    12345
+CFL    0.0
+Order    2.0
+xcells    0.001
+ycells    200
+zcells    10
+SizeX    1000
+SizeY    5
+SizeZ    0
+Face_1    1
