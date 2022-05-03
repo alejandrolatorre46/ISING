@@ -36,7 +36,6 @@ double beta_a_analizar; //Usada en el analisis, no en la simulaci�n
 //       FUNCIONES DE INICIALIZACI�N         \\
 //###########################################\\
 
-//comeme rel tabo
 
 float Random(void)
 {
