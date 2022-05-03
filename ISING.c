@@ -10,32 +10,33 @@ unsigned int ir1;
 unsigned char ind_ran,ig1,ig2,ig3;
 
 int L, V; //Lado red NOTA: V se inicializa en configuracionInicial()
-int semilla_rand; //semilla para inicializar la función Random
-int n_pasos_term, n_cambios, n_medidas; //pasos de la termalizacion, cuantos cambios por medida, nº de medidas.
+int semilla_rand; //semilla para inicializar la funciï¿½n Random
+int n_pasos_term, n_cambios, n_medidas; //pasos de la termalizacion, cuantos cambios por medida, nï¿½ de medidas.
 double b_ini, b_f, delta_b;  //valores de beta inicial, final e incremento.
-int n_bloques; //número de bloques que se toman para realizar el análisis de errores
+int n_bloques; //nï¿½mero de bloques que se toman para realizar el anï¿½lisis de errores
 char rutadest[30]; //Ruta de valores de output
 
 int *xp, *yp, *xm, *ym; //vectores de desplazamiento
 int *s; //vector de espines
 double prob[5]; //Vector donde se guardan las probabilidades para cada beta
 
-double *medida_magnet; //Vector donde se guardan las medidas de magnetización.
-double *medida_ener; //Vector donde se guardan las medidas de energía
+double *medida_magnet; //Vector donde se guardan las medidas de magnetizaciï¿½n.
+double *medida_ener; //Vector donde se guardan las medidas de energï¿½a
 
-double **resultados; //Vector de resultados finales con tamaño [7][N]
+double **resultados; //Vector de resultados finales con tamaï¿½o [7][N]
 
 double *calor_especifico;
 double *susceptibilidad;
 
 int modo_de_ejecucion;
 
-double beta_a_analizar; //Usada en el analisis, no en la simulación
+double beta_a_analizar; //Usada en el analisis, no en la simulaciï¿½n
 
 //###########################################\\
-//       FUNCIONES DE INICIALIZACIÓN         \\
+//       FUNCIONES DE INICIALIZACIï¿½N         \\
 //###########################################\\
 
+//comeme rel tabo
 
 float Random(void)
 {
@@ -106,13 +107,13 @@ double varianza(double *serie, int Numero){
 
 double error_media_bloques(double *datos,int n_datos,int n_intervalos){
 
-    //declaración de variables para su uso.
+    //declaraciï¿½n de variables para su uso.
     int interv_size=n_datos/n_intervalos,i,j;
     double datosauxiliar[interv_size],mediasint[n_intervalos];
     double varianza_int;
 
     for(j=0; j<n_intervalos; j++){
-        // En cada iteración del primer for se almacena un intervalo en el vector auxiliar, y se almacena su media en el vector de medias.
+        // En cada iteraciï¿½n del primer for se almacena un intervalo en el vector auxiliar, y se almacena su media en el vector de medias.
 
         for(i=0; i<interv_size; i++)
             datosauxiliar[i] = datos[j*interv_size+i];
@@ -121,7 +122,7 @@ double error_media_bloques(double *datos,int n_datos,int n_intervalos){
     }
 
     varianza_int=varianza(mediasint, n_intervalos);
-    // A la función que calcule la varianza le paso el vector con las medias de los intervalos y la cantida de medias calculadas(tantas como intervalos haya)
+    // A la funciï¿½n que calcule la varianza le paso el vector con las medias de los intervalos y la cantida de medias calculadas(tantas como intervalos haya)
 
     return sqrt(varianza_int/interv_size);
 
@@ -183,7 +184,7 @@ void histograma (double *datos, int N, int n, double a, double b, const char* no
     guardaHist(H, n, a, delta, nombre);
 }
 
-//Inicializa variables según el fichero de inicialización
+//Inicializa variables segï¿½n el fichero de inicializaciï¿½n
 void leeDatos() {
 
 
@@ -211,7 +212,7 @@ char fname[10240];
 
 
 
-    if(beta_a_analizar < 0) beta_a_analizar = 0.5*log(1+sqrt(2)); //beta crítica
+    if(beta_a_analizar < 0) beta_a_analizar = 0.5*log(1+sqrt(2)); //beta crï¿½tica
 
     printf("Datos leidos de Fichero:\n");
     printf("L = %d \nsemilla_rand = %d \nb_ini = %lf \nb_f = %lf \nn_delta = %lf \nn_pasos_term = %d \nn_cambios = %d \nn_medidas = %d \nn_bloques = %d ",
@@ -249,7 +250,7 @@ void inicializaVectoresMovimiento() {
     }
 }
 
-//Genera una configuración aleatoria (convendría revisarla para que haga otras cosas según un flag)
+//Genera una configuraciï¿½n aleatoria (convendrï¿½a revisarla para que haga otras cosas segï¿½n un flag)
 void configuracionInicial() {
 
     int i;
@@ -283,7 +284,7 @@ void inicializaMedidas()
 
 }
 
-//Reserva memoria para el vector resultados. N es el número de parámetros a guardar
+//Reserva memoria para el vector resultados. N es el nï¿½mero de parï¿½metros a guardar
 void inicializaVectorResultados(int N, int n_resultados)
 {
     int i;
@@ -302,7 +303,7 @@ void inicializaVectorResultados(int N, int n_resultados)
 
 
 
-//Calcula la magnetización de la red
+//Calcula la magnetizaciï¿½n de la red
 double calcularMagnetizacion()
 {
     double magnetizacion = 0;
@@ -316,7 +317,7 @@ double calcularMagnetizacion()
     return magnetizacion;
 }
 
-//Calcula la energía de la red
+//Calcula la energï¿½a de la red
 double calcularEnergia()
 {
     double energia = 0;
@@ -335,7 +336,7 @@ double calcularEnergia()
     return energia;
 }
 
-/*Realiza las medidas de la magnetización y la energía de la red y las guarda en la posicion numero_medida de los respectivos vectores */
+/*Realiza las medidas de la magnetizaciï¿½n y la energï¿½a de la red y las guarda en la posicion numero_medida de los respectivos vectores */
 
 void mide(int numero_medida)
 {
@@ -353,7 +354,7 @@ void calcula_prob(double beta) {
     prob[4]=exp(-beta*8);
 }
 
-//Evalúa toda la red y la cambia según su probabilidad (metropolis)
+//Evalï¿½a toda la red y la cambia segï¿½n su probabilidad (metropolis)
 void cambiaRed()
 {
     int ind, n=0, i, j;
@@ -361,9 +362,9 @@ void cambiaRed()
     for(i=0; i<L; i++)
         for(j=0; j<L; j++)
         {
-            ind = s[n]*(s[n+xp[j]]+s[n+yp[i]]+s[n+xm[j]]+s[n+ym[i]])/2+2; //Calcula el índice del vector prob que corresponde
+            ind = s[n]*(s[n+xp[j]]+s[n+yp[i]]+s[n+xm[j]]+s[n+ym[i]])/2+2; //Calcula el ï¿½ndice del vector prob que corresponde
 
-            if(Random()<prob[ind]) //Evalúa probabilidad de cambiar el spin
+            if(Random()<prob[ind]) //Evalï¿½a probabilidad de cambiar el spin
                 s[n] = -s[n];
 
               n++;
@@ -437,7 +438,7 @@ void escribeMedidas(int n_beta)
 void iteraBetas(double b_ini, double b_f)
 {
 
-    int n_beta, N_pasos; //Número de beta (para el índice de los vectores de medidas), Número de pasos de beta a realizar
+    int n_beta, N_pasos; //Nï¿½mero de beta (para el ï¿½ndice de los vectores de medidas), Nï¿½mero de pasos de beta a realizar
     int n_pasos_term_hechos, n_cambios_hechos, n_medidas_hechas; //Controlan cuantas veces se ha hecho cada cosa en los respectivos bucles
     double beta = b_ini, incremento_b;  //beta que se analiza e incremento de b teniendo en cuenta el signo
 
